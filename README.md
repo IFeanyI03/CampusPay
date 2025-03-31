@@ -1,6 +1,22 @@
 # CampusPay
 Job Board app for students
 
+## Project Setup
+
+```
+CampusPay/
+├── CampusPayApp/
+│   └── src/
+│       └── main/
+│           └── java/
+│               └── com/example/campuspayapp/
+│                   ├── ui/         // Classes related to the user interface (screens)
+│                   ├── api/        // Classes for handling communication with the backend
+│                   ├── utils/      // Utility classes (e.g., for validation)
+│                   └── HelloApplication.java       // The main entry point of the application
+└── README.md
+```
+
 ## Sitemap
 
 ```
