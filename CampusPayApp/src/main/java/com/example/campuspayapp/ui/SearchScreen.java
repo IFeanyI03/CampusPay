@@ -1,4 +1,4 @@
 package com.example.campuspayapp.ui;
 
-public class EmployerLoginScreen {
+public class SearchScreen {
 }
