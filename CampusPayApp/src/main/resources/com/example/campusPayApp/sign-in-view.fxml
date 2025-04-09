@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.campusPayApp.ui.auth.SignInScreen">
+   <right>
+      <AnchorPane prefHeight="720.0" prefWidth="667.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="720.0" fitWidth="672.0" layoutX="-2.0">
+<!--               <image>-->
+                  <Image url="@img/login.png" />
+<!--               </image>-->
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </right>
+   <left>
+      <AnchorPane prefHeight="720.0" prefWidth="611.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="136.0" layoutY="154.0" text="CampusPay">
+               <font>
+                  <Font name="System Bold" size="60.0" />
+               </font>
+            </Label>
+            <Label layoutX="124.0" layoutY="242.0" prefWidth="360.0" text="Welcome back a new Job awaits you" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="82.0" layoutY="324.0" text="Email / Matric No." />
+            <Label layoutX="82.0" layoutY="403.0" text="Password" />
+            <TextField fx:id="username" layoutX="82.0" layoutY="347.0" prefHeight="40.0" prefWidth="448.0" style="-fx-background-radius: 8;" />
+            <PasswordField fx:id="password" layoutX="82.0" layoutY="426.0" prefHeight="40.0" prefWidth="448.0" style="-fx-background-radius: 8;" />
+            <Button fx:id="signInButton" layoutX="82.0" layoutY="488.0" mnemonicParsing="false" onAction="#onClickHandleSignIn" prefHeight="40.0" prefWidth="448.0" style="-fx-background-color: #000; -fx-background-radius: 8;" text="Sign In" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Hyperlink fx:id="registerLink" layoutX="82.0" layoutY="543.0" onAction="#onClickGoToRegister" text="Don’t have an Account? Register with us" />
+            <Label fx:id="toast" layoutX="82.0" layoutY="66.0" prefHeight="18.0" />
+         </children>
+      </AnchorPane>
+   </left>
+</BorderPane>
