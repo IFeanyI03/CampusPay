@@ -10,6 +10,15 @@ module com.example.campusPayApp {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.desktop;
+    requires java.prefs;
+    requires com.google.gson;
+    requires json.simple;
+    requires java.net.http;
+    requires okhttp3;
+    requires jdk.jfr;
+    requires com.fasterxml.jackson.core;
+    requires annotations;
 
     opens com.example.campusPayApp to javafx.fxml;
     opens com.example.campusPayApp.ui to javafx.fxml;

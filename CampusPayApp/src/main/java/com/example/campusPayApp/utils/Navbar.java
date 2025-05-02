@@ -10,6 +10,7 @@ import java.io.IOException;
 
 public class Navbar {
 
+    public Button homeButton;
     @FXML
     private Button addButton;
 
@@ -34,11 +35,11 @@ public class Navbar {
         goToProfile();
     }
 
-    HelloApplication app = new HelloApplication();
+//    HelloApplication app = new HelloApplication();
 
     public void goToAddJob() throws IOException {
         String[] data = {"post-job-view.fxml", "Post Job"};
-        app.changeScene(data);
+        HelloApplication.changeScene(data);
         addButton.setStyle("-fx-background-color: #F4F !important;");
         searchButton.setStyle("-fx-background-color: #FFF !important;");
         profileButton.setStyle("-fx-background-color: #FFF !important;");
@@ -46,21 +47,38 @@ public class Navbar {
 
     public void goToSearch() throws IOException {
         String[] data = {"search-view.fxml", "Search Job"};
-        app.changeScene(data);
-        Platform.runLater(() -> {
-            addButton.setStyle("-fx-background-color: red !important;");
-            searchButton.setStyle("-fx-background-color: red !important;");
-            profileButton.setStyle("-fx-background-color: red !important;");
-        });
+        HelloApplication.changeScene(data);
+//        Platform.runLater(() -> {
+//
+//        });
+
+        addButton.setStyle("-fx-background-color: red !important;");
+        searchButton.setStyle("-fx-background-color: red !important;");
+        profileButton.setStyle("-fx-background-color: red !important;");
     }
 
     public void goToProfile() throws IOException {
         String[] data = {"profile-view.fxml", "Profile"};
-        app.changeScene(data);
-        Platform.runLater(() -> {
+        HelloApplication.changeScene(data);
+//        Platform.runLater(() -> {
             addButton.setStyle("-fx-background-color: red !important;");
             searchButton.setStyle("-fx-background-color: red !important;");
             profileButton.setStyle("-fx-background-color: red !important;");
-        });
+//        });
     }
+
+    public void onClickHomeButto(ActionEvent event) throws IOException {
+        goToHome();
+    }
+
+    private void goToHome() throws IOException {
+        String[] data = {"home-view.fxml", "Welcome"};
+        HelloApplication.changeScene(data);
+//        Platform.runLater(() -> {
+//            addButton.setStyle("-fx-background-color: red !important;");
+//            searchButton.setStyle("-fx-background-color: red !important;");
+//            profileButton.setStyle("-fx-background-color: red !important;");
+//        });
+    }
+
 }

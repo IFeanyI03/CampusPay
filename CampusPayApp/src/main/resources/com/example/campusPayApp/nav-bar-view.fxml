@@ -14,11 +14,6 @@
    <top>
         <AnchorPane prefHeight="90.0" BorderPane.alignment="CENTER">
             <children>
-                <Label layoutX="57.0" layoutY="27.0" text="CampusPay">
-                    <font>
-                        <Font name="System Bold" size="24.0" />
-                    </font>
-                </Label>
                 <Button fx:id="addButton" layoutX="1057.0" layoutY="29.0" mnemonicParsing="false" onAction="#onClickAddButton" style="-fx-background-color: #fff;">
                     <graphic>
                         <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
@@ -55,6 +50,15 @@
                         </ImageView>
                     </graphic>
                 </Button>
+            <Button fx:id="homeButton" layoutX="57.0" layoutY="23.0" mnemonicParsing="false" onAction="#onClickHomeButto" style="-fx-background-color: #fff;">
+               <graphic>
+                      <Label text="CampusPay" textFill="#118c4f">
+                          <font>
+                              <Font name="System Bold" size="24.0" />
+                          </font>
+                      </Label>
+               </graphic>
+            </Button>
             </children>
             <padding>
                 <Insets left="30.0" right="30.0" />

@@ -1,5 +1,8 @@
 package com.example.campusPayApp;
 
+import com.example.campusPayApp.utils.LocalStorageManager;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -52,11 +55,24 @@ public class HelloApplication extends Application {
     }
 
     private void loadMainApplication() throws IOException {
-        FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("sign-in-view.fxml"));
-        Parent mainRoot = mainLoader.load();
-        Scene mainScene = new Scene(mainRoot, 1280, 720);
-        mainStage.setTitle("Sign In");
-        mainStage.setScene(mainScene);
+//        Gson gson = new Gson();
+        Object userObject = LocalStorageManager.getObject("User");
+
+        FXMLLoader mainLoader;
+        if (userObject != null) {
+//            JsonObject user = gson.fromJson(String.valueOf(userObject), JsonObject.class);
+            mainLoader = new FXMLLoader(getClass().getResource("home-view.fxml"));
+            Parent mainRoot = mainLoader.load();
+            Scene mainScene = new Scene(mainRoot, 1280, 720);
+            mainStage.setTitle("Welcome");
+            mainStage.setScene(mainScene);
+        } else {
+            mainLoader = new FXMLLoader(getClass().getResource("sign-in-view.fxml"));
+            Parent mainRoot = mainLoader.load();
+            Scene mainScene = new Scene(mainRoot, 1280, 720);
+            mainStage.setTitle("Sign In");
+            mainStage.setScene(mainScene);
+        }
         mainStage.setResizable(false);
     }
 
@@ -67,6 +83,7 @@ public class HelloApplication extends Application {
         Parent pane = FXMLLoader.load(Objects.requireNonNull(HelloApplication.class.getResource(fxmlFileName)));
         mainStage.setTitle(windowTitle);
         mainStage.getScene().setRoot(pane);
+
     }
 
     public static void main(String[] args) {
