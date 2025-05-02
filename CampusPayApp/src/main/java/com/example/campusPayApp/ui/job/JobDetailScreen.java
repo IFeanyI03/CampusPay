@@ -64,6 +64,7 @@ public class JobDetailScreen implements Initializable {
     private void applyToJob() throws IOException {
         LocalStorageManager.getString("Job");
 
+        System.out.println("Job" +  LocalStorageManager.getString("Job"));
         String body = "{" +
                 "\"applicant\": " + "\"" + user.get("id").getAsString() + "\"" + ", " +
                 "\"job_id\": " + "\"" + jobId + "\"" + "}";
@@ -126,31 +127,33 @@ public class JobDetailScreen implements Initializable {
                 JsonObject nameObject = gson.fromJson(nameString, JsonObject.class);
 
                 String thisJob = applications.getJobByJobId(jobId);
-                System.out.println(thisJob);
-                String thisJobString = thisJob.substring(1, thisJob.length() -1 );
+                try{
+                    if (!Objects.equals(thisJob, "[]")) {
+                        String thisJobString = thisJob.substring(1, thisJob.length() -1 );
+                        JsonObject thisJobObject = gson.fromJson(thisJobString, JsonObject.class);
+                        String applied_by =  thisJobObject.get("applicant").getAsString();
+                        boolean hasApplied = Objects.equals(applied_by, user.get("id").getAsString());
+                        if ( hasApplied ) {
+                            applyButton.setDisable(true);
+                            applyButton.setText("Applied");
+                        }
 
-                JsonObject thisJobObject = gson.fromJson(thisJobString, JsonObject.class);
-                String created_by =  thisJobObject.get("applicant").getAsString();
-                boolean hasApplied = Objects.equals(created_by, user.get("id").getAsString());
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+//                System.out.println(thisJobString);
+
 
                 if (!nameObject.get("business_name").isJsonNull()){
                     createdBy.setText(nameObject.get("business_name").getAsString());
                     applyButton.setDisable(!nameObject.get("resume_link").isJsonNull());
 
 
-                    if ( hasApplied ) {
-                        applyButton.setDisable(true);
-                        applyButton.setText("Applied");
-                    }
-
                 } else {
                     String fullName = nameObject.get("firstname").getAsString() + " " + nameObject.get("lastname").getAsString();
                     createdBy.setText(fullName);
-
-                    if ( hasApplied ) {
-                        applyButton.setDisable(true);
-                        applyButton.setText("Applied");
-                    }
 
                 }
 
