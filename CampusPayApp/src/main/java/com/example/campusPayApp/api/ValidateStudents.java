@@ -3,8 +3,11 @@ package com.example.campusPayApp.api;
 import com.example.campusPayApp.utils.LocalStorageManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+
 import javax.net.ssl.HttpsURLConnection;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 
 
@@ -49,7 +52,6 @@ public class ValidateStudents {
                 JsonObject student = gson.fromJson(dataObject.get("Student").toString(), JsonObject.class);
 
 
-                LocalStorageManager.saveObject("Student", student);
                 int hashPassword = password.hashCode();
                 Profile profile = new Profile();
                 if (!student.isJsonNull()) {
@@ -71,6 +73,8 @@ public class ValidateStudents {
                             "}";
 //                    System.out.println(studentJsonString);
                     //                    System.out.println(rspData);
+                    LocalStorageManager.saveString("registeredUser", student.get("AlternateEmail").getAsString());
+
                     return profile.post(studentJsonString);
                 }
             }

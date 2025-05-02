@@ -63,6 +63,7 @@ public class RegistrationScreen {
         } else {
             try{
                 registerStudentButton.setDisable(true);
+
                 String responseCode = student.checkStudentDetails(matricNo.getText(), studentPassword.getText());
                 if (Objects.equals(responseCode, "201")) {
                     toast.setText("Authentication Successful");

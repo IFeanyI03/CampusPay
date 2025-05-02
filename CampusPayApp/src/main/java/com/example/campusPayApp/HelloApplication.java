@@ -1,14 +1,13 @@
 package com.example.campusPayApp;
 
 import com.example.campusPayApp.utils.LocalStorageManager;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 import java.io.IOException;
 import java.util.Objects;
 
@@ -83,7 +82,6 @@ public class HelloApplication extends Application {
         Parent pane = FXMLLoader.load(Objects.requireNonNull(HelloApplication.class.getResource(fxmlFileName)));
         mainStage.setTitle(windowTitle);
         mainStage.getScene().setRoot(pane);
-
     }
 
     public static void main(String[] args) {

@@ -1,9 +1,13 @@
 package com.example.campusPayApp.api;
 
-import java.io.IOException;
-
 import com.example.campusPayApp.AppConfig;
+import com.example.campusPayApp.HelloApplication;
+import com.example.campusPayApp.utils.LocalStorageManager;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import okhttp3.*;
+
+import java.io.IOException;
 
 public class Profile {
 
@@ -34,6 +38,10 @@ public class Profile {
         String responseData;
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         RequestBody body = RequestBody.create(data, JSON);
+        Gson gson = new Gson();
+        JsonObject user = gson.fromJson(data, JsonObject.class);
+
+        LocalStorageManager.saveString("registeredUser", user.get("email").getAsString());
 
         Request request = new Request.Builder()
                 .url(AppConfig.get("SUPABASE_URL") + "/rest/v1/" + TABLE_NAME)
@@ -49,6 +57,7 @@ public class Profile {
                 return String.valueOf(response.code());
             }
             else {
+
                 System.out.println("body" + response.body().string());
                 return String.valueOf(response.code());
             }
@@ -155,6 +164,57 @@ public class Profile {
             throw e;
         }
         return "finally";
+    }
+
+    public String updateUser(String id, String data) throws IOException {
+        // 1. Construct the URL to target the specific profile row using its ID.
+        String url = AppConfig.get("SUPABASE_URL") + "/rest/v1/" + TABLE_NAME + "?id=eq." + id;
+
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+        // 2. Create the request body from the JSON data string.
+        RequestBody body = RequestBody.create(data, JSON);
+
+        // 3. Build the PATCH request.
+        Request request = new Request.Builder()
+                .url(url)
+                .patch(body) // Use PATCH method for partial updates
+                .addHeader("apikey", AppConfig.get("SUPABASE_API_KEY"))
+                // .addHeader("Authorization", "Bearer " + YOUR_JWT_TOKEN_IF_NEEDED) // Add if RLS requires authentication for updates
+                .addHeader("Content-Type", "application/json") // Specify the content type of the payload
+                .addHeader("Prefer", "return=representation") // Ask Supabase to return the updated row(s) in the response body
+                .build();
+
+        // 4. Execute the request and handle the response.
+        try (Response response = client.newCall(request).execute()) {
+            String responseBodyString = response.body() != null ? response.body().string() : "null"; // Safely read the body once
+
+            if (response.isSuccessful()) {
+                // Status code 200 OK is expected when using "Prefer: return=representation" and the update is successful.
+                // Status code 204 No Content might be returned if "Prefer" header wasn't set or if return=minimal was used.
+                String[] navData = LocalStorageManager.getObject("User") == null ? new String[]{"sign-in-view.fxml", "Sign In"} : new String[]{"home-view.fxml", "Welcome"};
+                HelloApplication.changeScene(navData);
+                System.out.println("Profile update successful for ID: " + id + ". Code: " + response.code() + ". Updated data: " + responseBodyString);
+                // You could potentially parse and return the updated object from responseBodyString if needed.
+                return String.valueOf(response.code());
+            } else {
+                // Handle potential errors (e.g., 400 Bad Request, 401 Unauthorized, 404 Not Found)
+                System.err.println("Failed to update profile for ID: " + id + ". Response code: " + response.code());
+                System.err.println("Error details: " + responseBodyString);
+                // If the response body indicates zero rows were updated (e.g., empty array "[]" when using representation)
+                // it might imply the ID didn't exist, conceptually similar to a 404.
+                if (response.code() == 200 && "[]".equals(responseBodyString.trim())) {
+                    System.err.println("Note: Update request was successful (Code 200), but no rows matched the ID " + id + ".");
+                    // You might want to treat this as a specific case, perhaps return "404" or similar logic.
+                    return "404"; // Or return String.valueOf(response.code()) depending on desired behavior
+                }
+                return String.valueOf(response.code()); // Return the actual error code
+            }
+        } catch (IOException e) {
+            System.err.println("Error making the updateUser request for ID " + id + ": " + e.getMessage());
+            e.printStackTrace();
+            throw e; // Re-throw the exception
+        }
     }
 
 }
