@@ -52,7 +52,7 @@ public class SignInScreen {
 
             Profile profile = new Profile();
             String response = profile.getProfileByEmail(email);
-            System.out.println(response);
+//            System.out.println(response);
             if (response.equals("404")) {
                 toast.setText("User with this email does not exist");
                 toast.setTextFill(Color.ORANGERED);

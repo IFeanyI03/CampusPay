@@ -83,18 +83,16 @@ public class EditProfileScreen implements Initializable {
         public void onClickHandleSkip(ActionEvent event) throws  IOException {
             skipProfileSetup();
         }
-
+//
         public void skipProfileSetup() throws IOException {
-            HelloApplication app = new HelloApplication();
-            String[] data = {"home-view.fxml", "Home"};
-            HelloApplication.changeScene(data);
+            System.out.println("Can't skip till you setup profile");
         }
 
         @Override
         public void initialize(URL location, ResourceBundle resources) {
             try {
                 setUserInfo();
-                System.out.println(userData);
+//                System.out.println(userData);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -104,13 +102,13 @@ public class EditProfileScreen implements Initializable {
 
 
 
-            System.out.println(studentStringData);
-    //        String studentString = studentStringData.substring(1, studentStringData.length() -1);
+//           System.out.println(studentStringData);
+//        String studentString = studentStringData.substring(1, studentStringData.length() -1);
 
-            System.out.println(student);
+//            System.out.println(student);
 
             if (student == null) {
-                System.out.println((Object) null);
+//                System.out.println((Object) null);
             } else {
     //        System.out.println(student);
     //            middlename.setText(student.get("middlename").getAsString());

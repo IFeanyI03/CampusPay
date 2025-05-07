@@ -45,9 +45,9 @@ public class ViewProfileScreen implements Initializable {
         }
         else {
 
-            Object user = Objects.equals(profile_id, user_id) ? user_id : profile_id ;
+            Object user = Objects.equals( user_id, profile_id) ? user_id : profile_id ;
 
-            System.out.println(user);
+//            System.out.println(user);
             JsonObject userObject = gson.fromJson(String.valueOf(user), JsonObject.class);
             try {
                 setDetails(userObject);
@@ -76,7 +76,8 @@ public class ViewProfileScreen implements Initializable {
         }
         else {
 //            System.out.println(LocalStorageManager.getObject("ProfileId"));
-            logoutButton.setVisible(Objects.equals(LocalStorageManager.getObject("ProfileId"), LocalStorageManager.getObject("User")));
+            System.out.println("This Ran \n" + Objects.equals(LocalStorageManager.getObject("ProfileId"), LocalStorageManager.getObject("User")));
+            logoutButton.setVisible(Objects.equals(LocalStorageManager.getObject("User"), LocalStorageManager.getObject("ProfileId")));
         }
         isStudent.setVisible(Objects.equals(student, true));
         name.setText(Objects.equals(businessName, "") ? firstname + " " + lastname : businessName );

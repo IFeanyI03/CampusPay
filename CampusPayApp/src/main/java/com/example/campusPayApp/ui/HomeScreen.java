@@ -38,7 +38,7 @@ public class HomeScreen implements Initializable {
         try {
             getJob();
             setJobList();
-            System.out.println(LocalStorageManager.getObject("User"));
+//            System.out.println(LocalStorageManager.getObject("User"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

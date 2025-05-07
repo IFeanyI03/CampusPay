@@ -53,12 +53,12 @@ public class Profile {
 
             if (!response.isSuccessful()) {
 //                throw new IOException("Unexpected code " + response);
-                System.out.println("body" + response.body().string());
+//                System.out.println("body" + response.body().string());
                 return String.valueOf(response.code());
             }
             else {
 
-                System.out.println("body" + response.body().string());
+//                System.out.println("body" + response.body().string());
                 return String.valueOf(response.code());
             }
         }
@@ -102,7 +102,7 @@ public class Profile {
                     }
 
                 } else {
-                    System.out.println("Successfully retrieved job, but response body is empty.");
+//                    System.out.println("Successfully retrieved job, but response body is empty.");
                 }
             } else {
                 System.err.println("Failed to retrieve job. Response code: " + response.code());
@@ -136,7 +136,7 @@ public class Profile {
                 ResponseBody responseBody = response.body();
                 if (responseBody != null) {
                     String responseString = responseBody.string();
-                    System.out.println("Successfully retrieved job: " + responseString);
+//                    System.out.println("Successfully retrieved job: " + responseString);
                     // Parse the JSON response.  It will be a JSON array, even if you only asked for one ID.
                     // You'll likely want to use Gson for this.  For example:
                     // Gson gson = new Gson();
@@ -148,7 +148,7 @@ public class Profile {
                     return responseString;
 
                 } else {
-                    System.out.println("Successfully retrieved job, but response body is empty.");
+//                    System.out.println("Successfully retrieved job, but response body is empty.");
                     return "Successfully retrieved job, but response body is empty.";
                 }
             } else {
@@ -194,7 +194,7 @@ public class Profile {
                 // Status code 204 No Content might be returned if "Prefer" header wasn't set or if return=minimal was used.
                 String[] navData = LocalStorageManager.getObject("User") == null ? new String[]{"sign-in-view.fxml", "Sign In"} : new String[]{"home-view.fxml", "Welcome"};
                 HelloApplication.changeScene(navData);
-                System.out.println("Profile update successful for ID: " + id + ". Code: " + response.code() + ". Updated data: " + responseBodyString);
+//                System.out.println("Profile update successful for ID: " + id + ". Code: " + response.code() + ". Updated data: " + responseBodyString);
                 // You could potentially parse and return the updated object from responseBodyString if needed.
                 return String.valueOf(response.code());
             } else {

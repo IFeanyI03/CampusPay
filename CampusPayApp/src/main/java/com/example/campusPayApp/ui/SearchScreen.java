@@ -134,7 +134,7 @@ public class SearchScreen {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            System.out.println("Apply button clicked for: " + responseObject.get("id").getAsString());
+//            System.out.println("Apply button clicked for: " + responseObject.get("id").getAsString());
             // Implement your application logic here
         });
 

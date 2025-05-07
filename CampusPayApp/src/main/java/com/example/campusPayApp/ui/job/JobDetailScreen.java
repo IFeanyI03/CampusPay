@@ -64,16 +64,24 @@ public class JobDetailScreen implements Initializable {
     private void applyToJob() throws IOException {
         LocalStorageManager.getString("Job");
 
-        System.out.println("Job" +  LocalStorageManager.getString("Job"));
+//        System.out.println("Job" +  LocalStorageManager.getString("Job"));
         String body = "{" +
                 "\"applicant\": " + "\"" + user.get("id").getAsString() + "\"" + ", " +
                 "\"job_id\": " + "\"" + jobId + "\"" + "}";
         String response = applications.post(body);
 
-        String thisJob = applications.getJobByJobId(jobId);
-        JsonObject thisJobObject = gson.fromJson(thisJob, JsonObject.class);
-        String createdBy =  thisJobObject.get("applicant").getAsString();
-        boolean hasApplied = Objects.equals(createdBy, user.get("id").getAsString());
+//        String thisJob = applications.getJobByApplicant(user.get("id").getAsString());
+//        String thisJobString = thisJob.substring(1, thisJob.length() -1 );
+//
+////        System.out.println("------\n\n\n");
+////        System.out.println(thisJob);
+////
+////        System.out.println("------");
+//
+//        JsonObject thisJobObject = gson.fromJson(thisJobString, JsonObject.class);
+
+//        String createdBy =  thisJobObject.get("applicant").getAsString();
+//        boolean hasApplied = Objects.equals(createdBy, user.get("id").getAsString());
         if (Objects.equals(response, "201")  ) {
             applyButton.setDisable(true);
             applyButton.setText("Applied");
@@ -92,13 +100,12 @@ public class JobDetailScreen implements Initializable {
         String data = null;
         try {
             data = job.getJobById(jobId);
-            setApplicantList();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+            try {
+                setApplicantList();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
 
-
-        try {
 
             String dataString = data.substring(1, data.length() - 1);
 
@@ -126,18 +133,37 @@ public class JobDetailScreen implements Initializable {
                 String nameString = name.substring(1, name.length() -1 );
                 JsonObject nameObject = gson.fromJson(nameString, JsonObject.class);
 
-                String thisJob = applications.getJobByJobId(jobId);
+                String thisJob = applications.getJobByIdAndApplicant(jobId, user.get("id").getAsString());
+
+                System.out.println(thisJob);
+//                String thisJobData =  applications.getJobByJobId(jobId);
+//
+//                System.out.println(thisJobData);
+
+
+
                 try{
-                    if (!Objects.equals(thisJob, "[]")) {
+////                    System.out.println(jobId);
+                    if (!Objects.equals(thisJob, "[]") ) {
+////                        System.out.println(thisJob + "\n\n Error");
                         String thisJobString = thisJob.substring(1, thisJob.length() -1 );
-                        JsonObject thisJobObject = gson.fromJson(thisJobString, JsonObject.class);
-                        String applied_by =  thisJobObject.get("applicant").getAsString();
-                        boolean hasApplied = Objects.equals(applied_by, user.get("id").getAsString());
-                        if ( hasApplied ) {
-                            applyButton.setDisable(true);
+//
+//                        System.out.println(thisJobString);
+//
+                        boolean hasApplied = thisJobString.contains(user.get("id").getAsString());
+//
+//
+////                        JsonObject thisJobObject = gson.fromJson(thisJobString, JsonObject.class);
+////                        String applied_by =  thisJobObject.get("applicant").getAsString();
+////                        boolean hasApplied = Objects.equals(applied_by, user.get("id").getAsString());
+////                        System.out.println(hasApplied);
+////                        applyButton.setDisable(hasApplied);
+//
+                        if (hasApplied) {
+                            applyButton.setDisable(!nameObject.get("resume_link").isJsonNull() );
                             applyButton.setText("Applied");
                         }
-
+//
                     }
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -148,8 +174,7 @@ public class JobDetailScreen implements Initializable {
 
                 if (!nameObject.get("business_name").isJsonNull()){
                     createdBy.setText(nameObject.get("business_name").getAsString());
-                    applyButton.setDisable(!nameObject.get("resume_link").isJsonNull());
-
+//                    applyButton.setDisable(nameObject.get("resume_link").isJsonNull());
 
                 } else {
                     String fullName = nameObject.get("firstname").getAsString() + " " + nameObject.get("lastname").getAsString();
@@ -178,7 +203,7 @@ public class JobDetailScreen implements Initializable {
             return;
         }
 
-        System.out.println("ApplicantArray  " + applicantsArray);
+//        System.out.println("ApplicantArray  " + applicantsArray);
 
         int rowIndex = 0;
         for ( JsonElement applicant : applicantsArray) {
@@ -187,7 +212,7 @@ public class JobDetailScreen implements Initializable {
 
 //            System.out.println("ApplicantObject: " + applicantObject);
             String applicantData = profile.getProfileById(applicantObject.get("applicant").getAsString());
-            System.out.println(rowIndex + " ApplicantData: " + applicantData);
+//            System.out.println(rowIndex + " ApplicantData: " + applicantData);
             String data = applicantData.substring(1, applicantData.length() - 1);
             AnchorPane jobItemPane = createApplicant(data);
 
@@ -215,7 +240,7 @@ public class JobDetailScreen implements Initializable {
             try {
                 String profileData = profile.getProfileById(applicantData.get("id").getAsString());
                 String profileString = profileData.substring(1, profileData.length() -1);
-                System.out.println(profileString);
+//                System.out.println(profileString);
                 LocalStorageManager.saveObject("ProfileId", profileString);
                 HelloApplication.changeScene(data);
             } catch (IOException e) {

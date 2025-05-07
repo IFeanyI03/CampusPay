@@ -32,7 +32,14 @@ public class Navbar {
 
     @FXML
     public void onClickProfileButton(ActionEvent event) throws IOException {
-        goToProfile();
+        try{
+            LocalStorageManager.clearStringByKey("ProfileId");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            goToProfile();
+        }
     }
 
 //    HelloApplication app = new HelloApplication();

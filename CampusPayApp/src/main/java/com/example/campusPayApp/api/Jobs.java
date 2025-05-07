@@ -50,7 +50,7 @@ public class Jobs {
             responseData = response.body().string();
         }
 
-        System.out.println(responseData);
+//        System.out.println(responseData);
     }
 
     public String getJobById(String id) throws IOException {
@@ -70,7 +70,7 @@ public class Jobs {
                 ResponseBody responseBody = response.body();
                 if (responseBody != null) {
                     String responseString = responseBody.string();
-                    System.out.println("Successfully retrieved job: " + responseString);
+//                    System.out.println("Successfully retrieved job: " + responseString);
                     // Parse the JSON response.  It will be a JSON array, even if you only asked for one ID.
                     // You'll likely want to use Gson for this.  For example:
                     // Gson gson = new Gson();
@@ -82,7 +82,7 @@ public class Jobs {
                     return responseString;
 
                 } else {
-                    System.out.println("Successfully retrieved job, but response body is empty.");
+//                    System.out.println("Successfully retrieved job, but response body is empty.");
                     return "Successfully retrieved job, but response body is empty.";
                 }
             } else {
@@ -117,7 +117,7 @@ public class Jobs {
                 ResponseBody responseBody = response.body();
                 if (responseBody != null) {
                     String responseString = responseBody.string();
-                    System.out.println("Successfully retrieved job: " + responseString);
+//                    System.out.println("Successfully retrieved job: " + responseString);
                     // Parse the JSON response.  It will be a JSON array, even if you only asked for one ID.
                     // You'll likely want to use Gson for this.  For example:
                     // Gson gson = new Gson();
@@ -129,7 +129,7 @@ public class Jobs {
                     return responseString;
 
                 } else {
-                    System.out.println("Successfully retrieved job, but response body is empty.");
+//                    System.out.println("Successfully retrieved job, but response body is empty.");
                     return "Successfully retrieved job, but response body is empty.";
                 }
             } else {

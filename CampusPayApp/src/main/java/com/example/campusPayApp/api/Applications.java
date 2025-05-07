@@ -99,4 +99,55 @@ public class Applications {
         return "finally";
     }
 
+    public String getJobByIdAndApplicant(String id, String applicantId) throws IOException {
+        // 1. Construct the URL with the ID.  Supabase uses the ID in the URL path.
+        String url = AppConfig.get("SUPABASE_URL") +
+                "/rest/v1/" +
+                TABLE_NAME +
+                "?job_id=eq." + id +                // Filter for job_id
+                "&applicant=eq." + applicantId;  //  /jobs?id=eq.1
+
+        // 2. Build the Request.  Use GET for retrieving data.
+        Request request = new Request.Builder()
+                .url(url)
+                .get() // Use the GET method
+                .addHeader("apikey", AppConfig.get("SUPABASE_API_KEY"))
+                .build();
+
+        // 3. Execute the request and handle the response
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                ResponseBody responseBody = response.body();
+                if (responseBody != null) {
+                    //                    System.out.println("Successfully retrieved job: " + responseString);
+                    // Parse the JSON response.  It will be a JSON array, even if you only asked for one ID.
+                    // You'll likely want to use Gson for this.  For example:
+                    // Gson gson = new Gson();
+                    // JobData[] jobDataArray = gson.fromJson(responseString, JobData[].class);
+                    // if (jobDataArray.length > 0) {
+                    //   JobData job = jobDataArray[0]; // Get the first (and only) job
+                    //   System.out.println("Job Title: " + job.getTitle());
+                    // }
+                    return responseBody.string();
+
+                } else {
+//                    System.out.println("Successfully retrieved job, but response body is empty.");
+                    return "Successfully retrieved job, but response body is empty.";
+                }
+            } else {
+                System.err.println("Failed to retrieve job. Response code: " + response.code());
+                ResponseBody errorBody = response.body();
+                if (errorBody != null) {
+                    System.err.println("Error details: " + errorBody.string());
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error making the request: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
+        return "finally";
+    }
+
+
 }

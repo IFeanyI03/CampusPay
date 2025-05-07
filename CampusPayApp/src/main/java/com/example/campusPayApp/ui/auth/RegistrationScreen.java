@@ -90,6 +90,7 @@ public class RegistrationScreen {
                     }
                 }
             } catch (RuntimeException e) {
+                registerStudentButton.setDisable(false);
                 toast.setText("Authentication Failed: " + e.getMessage());
                 toast.setTextFill(Color.ORANGERED);
                 e.printStackTrace(); // Log the full error for debugging
@@ -115,7 +116,7 @@ public class RegistrationScreen {
 //
                 String response = profile.post(employerJsonString);
 
-                System.out.println(profile.post(employerJsonString));
+//                System.out.println(profile.post(employerJsonString));
 
              if (response.equals("201")){
                   toast.setText("User Account Created");

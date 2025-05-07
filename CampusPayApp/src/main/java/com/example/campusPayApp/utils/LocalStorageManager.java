@@ -1,6 +1,7 @@
 package com.example.campusPayApp.utils;
 import com.google.gson.*;
 
+import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 public class LocalStorageManager {
@@ -52,6 +53,45 @@ public class LocalStorageManager {
             prefs.clear();
         } catch (java.util.prefs.BackingStoreException e) {
             System.err.println("Error clearing preferences: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static void clearAll() {
+        try {
+            prefs.clear();
+            prefs.flush();
+            System.out.println("All preferences cleared successfully.");
+        } catch (java.util.prefs.BackingStoreException e) {
+            System.err.println("Error clearing all preferences: " + e.getMessage());
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            System.err.println("Error clearing all preferences: The preference node may have been removed. " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static void clearStringByKey(String key) {
+        if (key == null) {
+            System.err.println("Error: Key cannot be null when attempting to clear a preference.");
+            return;
+        }
+
+        try {
+            String currentValue = prefs.get(key, null);
+            if (currentValue == null) {
+                System.out.println("No preference found with key '" + key + "' to remove.");
+                return;
+            }
+
+            prefs.remove(key);
+//            prefs.flush();
+            System.out.println("Successfully removed preference with key: '" + key + "'");
+        } catch (IllegalStateException e) {
+            System.err.println("Error removing preference with key '" + key + "': The preference node may have been removed. " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("An unexpected error occurred while removing preference with key '" + key + "': " + e.getMessage());
             e.printStackTrace();
         }
     }
