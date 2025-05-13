@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -18,7 +19,12 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         mainStage = primaryStage; // Initialize the static mainStage
+
+        Image icon = new Image("CampusPay.png");
+        primaryStage.getIcons().add(icon);
         showSplashScreen(); // Show splash screen first
+
+
     }
 
     private void showSplashScreen() throws IOException {
