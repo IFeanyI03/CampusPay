@@ -7,6 +7,7 @@ import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
@@ -39,6 +40,15 @@ public class RegistrationScreen {
     public Hyperlink signInLink;
 
     @FXML
+    private ToggleButton studentToggle;
+    @FXML
+    private ToggleButton employerToggle;
+    @FXML
+    private VBox studentForm;
+    @FXML
+    private VBox employerForm;
+
+    @FXML
     public void onClickHandleEmployerRegister(ActionEvent event) throws IOException {
         registerEmployer();
     }
@@ -51,6 +61,50 @@ public class RegistrationScreen {
     @FXML
     public void onclickGoToSignIn(ActionEvent event) throws IOException {
         goToSignInPage();
+    }
+
+    @FXML
+    public void initialize() {
+        // Initialize toggle buttons
+        ToggleGroup group = new ToggleGroup();
+        studentToggle.setToggleGroup(group);
+        employerToggle.setToggleGroup(group);
+
+        // Style strings
+        String selectedStyle = "-fx-background-color: #118C4F; -fx-text-fill: white;";
+        String unselectedStyle = "-fx-background-color: #e0e0e0; -fx-text-fill: #555;";
+
+        // Set initial styles
+        studentToggle.setStyle(selectedStyle);
+        employerToggle.setStyle(unselectedStyle);
+
+        // Add toggle listener
+        group.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal == null) {
+                // This prevents both toggles from being deselected
+                studentToggle.setSelected(true);
+                return;
+            }
+
+            boolean isStudent = newVal == studentToggle;
+
+            // Update button styles
+            studentToggle.setStyle(isStudent ? selectedStyle : unselectedStyle);
+            employerToggle.setStyle(isStudent ? unselectedStyle : selectedStyle);
+
+            // Show/hide forms
+            studentForm.setVisible(isStudent);
+            employerForm.setVisible(!isStudent);
+
+            // Clear toast messages when switching
+            toast.setText("");
+        });
+
+        // Initialize form visibility
+        studentForm.setVisible(true);
+        employerForm.setVisible(false);
+
+        // ... (add any other initialization code you need) ...
     }
 
     HelloApplication app = new HelloApplication();
@@ -101,7 +155,7 @@ public class RegistrationScreen {
     }
 
     public void registerEmployer() throws IOException {
-        if(email.getText().isEmpty() && employerPassword.getText().isEmpty()){
+        if(email.getText().isEmpty() || employerPassword.getText().isEmpty()){
             toast.setText("Please enter your details first");
             toast.setTextFill(Color.ORANGERED);
         } else {

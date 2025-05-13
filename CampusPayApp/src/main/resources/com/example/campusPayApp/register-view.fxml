@@ -4,14 +4,16 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.campusPayApp.ui.auth.RegistrationScreen">
    <left>
@@ -27,42 +29,66 @@
    <right>
       <AnchorPane prefHeight="720.0" prefWidth="590.0" BorderPane.alignment="CENTER">
          <children>
-            <TabPane layoutX="56.0" layoutY="278.0" prefHeight="291.0" prefWidth="448.0" style="-fx-background-color: #fff;" tabClosingPolicy="UNAVAILABLE">
-              <tabs>
-                <Tab text="Student">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <Label layoutY="47.0" text="Matric No." textFill="#118c4f" />
-                              <Label layoutY="126.0" text="Password (Same one used in the student portal)" textFill="#118c4f" />
-                              <Button fx:id="registerStudentButton" layoutY="222.0" mnemonicParsing="false" onAction="#onClickHandleStudentRegister" prefHeight="40.0" prefWidth="448.0" style="-fx-background-color: #118C4F; -fx-background-radius: 8;" text="Register" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="12.0" />
-                                 </font></Button>
-                              <TextField fx:id="matricNo" layoutY="70.0" prefHeight="40.0" prefWidth="448.0" promptText="160805017" style="-fx-background-radius: 8; -fx-border-color: #118C4F; -fx-border-radius: 8;" />
-                              <PasswordField fx:id="studentPassword" layoutY="153.0" prefHeight="40.0" prefWidth="448.0" promptText="Password" style="-fx-background-radius: 8; -fx-border-color: #118C4F; -fx-border-radius: 8;" />
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </Tab>
-                <Tab closable="false" text="Employer">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="223.0" prefWidth="448.0" style="-fx-background-color: white;">
-                           <children>
-                              <Label layoutY="47.0" text="Email" textFill="#118c4f" />
-                              <Label layoutY="126.0" text="Password" textFill="#118c4f" />
-                              <Button fx:id="registerEmployerButton" layoutY="222.0" mnemonicParsing="false" onAction="#onClickHandleEmployerRegister" prefHeight="40.0" prefWidth="448.0" style="-fx-background-color: #118C4F; -fx-background-radius: 8;" text="Register" textFill="WHITE">
-                                 <font>
-                                    <Font name="System Bold" size="12.0" />
-                                 </font></Button>
-                              <TextField fx:id="email" layoutY="70.0" prefHeight="40.0" prefWidth="448.0" promptText="example@email.com" style="-fx-background-radius: 8; -fx-border-color: #118C4F; -fx-border-radius: 8;" />
-                              <PasswordField fx:id="employerPassword" layoutY="153.0" prefHeight="40.0" prefWidth="448.0" promptText="Password" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #118C4F;" />
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </Tab>
-              </tabs>
-            </TabPane>
+             <!-- Toggle Buttons for Student/Employer selection -->
+             <HBox alignment="CENTER" layoutX="56.0" layoutY="278.0" spacing="10">
+                 <ToggleButton fx:id="studentToggle" text="Student" selected="true"
+                               style="
+                                    -fx-background-radius: 20px;
+                                    -fx-pref-width: 120px;
+                                    -fx-background-color: #118C4F;
+                                    -fx-text-fill: white;
+                 "/>
+                 <ToggleButton fx:id="employerToggle" text="Employer"
+                               style="
+                                    -fx-background-radius: 20px;
+                                    -fx-pref-width: 120px;
+                                    -fx-background-color: #e0e0e0;
+                                    -fx-text-fill: #555;
+                 "/>
+             </HBox>
+
+             <!-- Container for both forms -->
+             <StackPane layoutX="56.0" layoutY="325.0" prefHeight="244.0" prefWidth="448.0">
+                 <!-- Student Form -->
+                 <VBox fx:id="studentForm" spacing="15">
+                     <Label text="Matric No." textFill="#118c4f" />
+                     <TextField fx:id="matricNo" prefHeight="40.0" prefWidth="448.0"
+                                promptText="160805017"
+                                style="-fx-background-radius: 8; -fx-border-color: #118C4F; -fx-border-radius: 8;" />
+                     <Label text="Password (Same one used in the student portal)" textFill="#118c4f" />
+                     <PasswordField fx:id="studentPassword" prefHeight="40.0" prefWidth="448.0"
+                                    promptText="Password"
+                                    style="-fx-background-radius: 8; -fx-border-color: #118C4F; -fx-border-radius: 8;" />
+                     <Button fx:id="registerStudentButton" mnemonicParsing="false"
+                             onAction="#onClickHandleStudentRegister" prefHeight="40.0" prefWidth="448.0"
+                             style="-fx-background-color: #118C4F; -fx-background-radius: 8;"
+                             text="Register" textFill="WHITE">
+                         <font>
+                             <Font name="System Bold" size="12.0" />
+                         </font>
+                     </Button>
+                 </VBox>
+
+                 <!-- Employer Form (initially hidden) -->
+                 <VBox fx:id="employerForm" spacing="15" visible="false">
+                     <Label text="Email" textFill="#118c4f" />
+                     <TextField fx:id="email" prefHeight="40.0" prefWidth="448.0"
+                                promptText="example@email.com"
+                                style="-fx-background-radius: 8; -fx-border-color: #118C4F; -fx-border-radius: 8;" />
+                     <Label text="Password" textFill="#118c4f" />
+                     <PasswordField fx:id="employerPassword" prefHeight="40.0" prefWidth="448.0"
+                                    promptText="Password"
+                                    style="-fx-background-radius: 8; -fx-border-color: #118C4F; -fx-border-radius: 8;" />
+                     <Button fx:id="registerEmployerButton" mnemonicParsing="false"
+                             onAction="#onClickHandleEmployerRegister" prefHeight="40.0" prefWidth="448.0"
+                             style="-fx-background-color: #118C4F; -fx-background-radius: 8;"
+                             text="Register" textFill="WHITE">
+                         <font>
+                             <Font name="System Bold" size="12.0" />
+                         </font>
+                     </Button>
+                 </VBox>
+             </StackPane>
             <Label layoutX="151.0" layoutY="102.0" text="CampusPay">
                <font>
                   <Font name="System Bold" size="48.0" />
