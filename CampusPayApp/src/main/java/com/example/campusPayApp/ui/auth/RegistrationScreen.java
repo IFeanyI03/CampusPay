@@ -65,12 +65,10 @@ public class RegistrationScreen {
 
     @FXML
     public void initialize() {
-        // Initialize toggle buttons
         ToggleGroup group = new ToggleGroup();
         studentToggle.setToggleGroup(group);
         employerToggle.setToggleGroup(group);
 
-        // Style strings
         String selectedStyle = "-fx-background-color: #118C4F; -fx-text-fill: white;";
         String unselectedStyle = "-fx-background-color: #e0e0e0; -fx-text-fill: #555;";
 
@@ -92,11 +90,8 @@ public class RegistrationScreen {
             studentToggle.setStyle(isStudent ? selectedStyle : unselectedStyle);
             employerToggle.setStyle(isStudent ? unselectedStyle : selectedStyle);
 
-            // Show/hide forms
             studentForm.setVisible(isStudent);
             employerForm.setVisible(!isStudent);
-
-            // Clear toast messages when switching
             toast.setText("");
         });
 
@@ -104,7 +99,13 @@ public class RegistrationScreen {
         studentForm.setVisible(true);
         employerForm.setVisible(false);
 
-        // ... (add any other initialization code you need) ...
+        email.textProperty().addListener((obs, oldVal, newVal) -> {
+            if (!newVal.isEmpty() && !isValidGmail(newVal)) {
+                email.setStyle("-fx-border-color: #ff4444; -fx-border-radius: 8;");
+            } else {
+                email.setStyle("-fx-border-color: #118C4F; -fx-border-radius: 8;");
+            }
+        });
     }
 
     HelloApplication app = new HelloApplication();
@@ -154,10 +155,19 @@ public class RegistrationScreen {
         }
     }
 
+    private boolean isValidGmail(String email) {
+        String gmailRegex = "^[a-zA-Z0-9]+(?:\\.[a-zA-Z0-9]+)*@gmail\\.com$";
+        return email.toLowerCase().matches(gmailRegex);
+    }
+
     public void registerEmployer() throws IOException {
         if(email.getText().isEmpty() || employerPassword.getText().isEmpty()){
             toast.setText("Please enter your details first");
             toast.setTextFill(Color.ORANGERED);
+        } else if (!isValidGmail((email.getText()))) {
+            toast.setText("Please use a valid Gmail address.");
+            toast.setTextFill(Color.ORANGERED);
+            email.setStyle("-fx-border-color: #ff4444; -fx-border-radius: 8");
         } else {
             try{
                 int hashPassword = employerPassword.getText().hashCode();
@@ -167,7 +177,6 @@ public class RegistrationScreen {
                         "\"email\": " + "\"" + email.getText() + "\"" + ", " +
                         "\"password\": " + "\"" + hashPassword + "\"" +
                         "}";
-//
                 String response = profile.post(employerJsonString);
 
 //                System.out.println(profile.post(employerJsonString));
