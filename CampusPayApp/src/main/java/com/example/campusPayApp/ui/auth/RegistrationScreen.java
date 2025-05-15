@@ -41,10 +41,13 @@ public class RegistrationScreen {
 
     @FXML
     private ToggleButton studentToggle;
+
     @FXML
     private ToggleButton employerToggle;
+
     @FXML
     private VBox studentForm;
+
     @FXML
     private VBox employerForm;
 
