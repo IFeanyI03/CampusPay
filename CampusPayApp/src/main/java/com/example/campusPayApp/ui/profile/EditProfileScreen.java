@@ -53,13 +53,13 @@ public class EditProfileScreen implements Initializable {
 
         public void saveProfileDetails() throws IOException {
             updateUser();
+
+            HelloApplication.changeScene(new String[]{"profile-view.fxml", "Profile"});
         }
 
         private void updateUser() {
             saveSetup.setDisable(true);
             Profile user = new Profile();
-
-
 
             String user_id = student.get("id").getAsString();
             String data =  "{" +

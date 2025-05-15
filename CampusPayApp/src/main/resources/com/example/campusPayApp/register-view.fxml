@@ -94,7 +94,7 @@
                   <Font name="System Bold" size="48.0" />
                </font>
             </Label>
-            <Label layoutX="56.0" layoutY="173.0" prefWidth="448.0" text="Register with us and start Earning or Finding workers" textAlignment="CENTER" textFill="#118c4f" wrapText="true">
+            <Label layoutX="56.0" layoutY="173.0" prefWidth="448.0" text="Join CampusPay today - your gateway to flexible campus jobs and trusted workers!" textAlignment="CENTER" textFill="#118c4f" wrapText="true">
                <font>
                   <Font size="24.0" />
                </font>

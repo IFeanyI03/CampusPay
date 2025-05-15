@@ -23,8 +23,6 @@ public class HelloApplication extends Application {
         Image icon = new Image("CampusPay.png");
         primaryStage.getIcons().add(icon);
         showSplashScreen(); // Show splash screen first
-
-
     }
 
     private void showSplashScreen() throws IOException {
