@@ -3,6 +3,7 @@ package com.example.campusPayApp.ui.auth;
 import com.example.campusPayApp.HelloApplication;
 import com.example.campusPayApp.api.Profile;
 import com.example.campusPayApp.utils.LocalStorageManager;
+import com.example.campusPayApp.utils.ThemedAlert;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -64,8 +65,11 @@ public class SignInScreen {
                 if (userObject.get("password").getAsInt() == password.getText().hashCode()) {
 
                     LocalStorageManager.saveObject("User", response);
-                    toast.setText("Sign In successful");
-                    toast.setTextFill(Color.GREEN);
+                    ThemedAlert.showAlert(
+                            "Success!",
+                            "Your profile has been saved successfully.",
+                            Alert.AlertType.INFORMATION
+                    );
 
                     PauseTransition pause = new PauseTransition(Duration.seconds(2));
                     pause.setOnFinished(e -> {
@@ -78,8 +82,11 @@ public class SignInScreen {
                     });
                     pause.play();
                 } else {
-                    toast.setText("Incorrect username or password");
-                    toast.setTextFill(Color.RED);
+                    ThemedAlert.showAlert(
+                            "Error",
+                            "Incorrect details. Try again",
+                            Alert.AlertType.ERROR
+                    );
                 }
             }
 //        } else (username.getText().isEmpty() && password.getText().isEmpty()) {

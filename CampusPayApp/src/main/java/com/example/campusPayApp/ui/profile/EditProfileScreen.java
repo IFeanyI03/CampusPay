@@ -3,6 +3,7 @@ package com.example.campusPayApp.ui.profile;
 import com.example.campusPayApp.HelloApplication;
 import com.example.campusPayApp.api.Profile;
 import com.example.campusPayApp.utils.LocalStorageManager;
+import com.example.campusPayApp.utils.ThemedAlert;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import javafx.collections.FXCollections;
@@ -29,8 +30,7 @@ public class EditProfileScreen implements Initializable {
     public TextArea bio;
     public TextArea skills;
     public TextField businessName;
-    public TextField businessCategory;
-    public Hyperlink skipSetup;
+    public ComboBox<String> businessCategory;
     public Button saveSetup;
     public ComboBox<String> gender;
 
@@ -51,11 +51,16 @@ public class EditProfileScreen implements Initializable {
             saveProfileDetails();
         }
 
-        public void saveProfileDetails() throws IOException {
-            updateUser();
-
-            HelloApplication.changeScene(new String[]{"profile-view.fxml", "Profile"});
+    public void saveProfileDetails() throws IOException {
+        if (!validateFields()) {
+            ThemedAlert.showAlert("Error", "Please fill all required fields.", Alert.AlertType.ERROR);
+            return;
         }
+
+        updateUser();
+        ThemedAlert.showAlert("Success", "Profile saved successfully!", Alert.AlertType.INFORMATION);
+        HelloApplication.changeScene(new String[]{"profile-view.fxml", "Profile"});
+    }
 
         private void updateUser() {
             saveSetup.setDisable(true);
@@ -71,21 +76,13 @@ public class EditProfileScreen implements Initializable {
                     "\"resume_link\": " + "\"" + resumeLink.getText() + "\"" + ", " +
                     "\"portfolio_link\": " + "\"" + portfolioLink.getText() + "\"" + ", " +
                     "\"business_name\": " + "\"" + businessName.getText() + "\"" + ", " +
-                    "\"business_category\": " + "\"" + businessCategory.getText() + "\"" +
+                    "\"business_category\": " + "\"" + businessCategory.getValue() + "\"" +
                     "}";
             try {
                 user.updateUser(user_id, data);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }
-
-        public void onClickHandleSkip(ActionEvent event) throws  IOException {
-            skipProfileSetup();
-        }
-//
-        public void skipProfileSetup() throws IOException {
-            System.out.println("Can't skip till you setup profile");
         }
 
         @Override
@@ -98,28 +95,38 @@ public class EditProfileScreen implements Initializable {
             }
         }
 
+    private boolean validateFields() {
+        boolean isValid = true;
+
+        TextInputControl[] requiredFields = {
+                firstname, lastname, email, bio, skills, businessName
+        };
+
+        for (TextInputControl field : requiredFields) {
+            if (field.getText() == null || field.getText().trim().isEmpty()) {
+                field.setStyle("-fx-border-color: red; -fx-border-width: 1px;");
+                isValid = false;
+            } else {
+                field.setStyle("");
+            }
+        }
+
+        // Validate ComboBoxes (e.g., businessCategory)
+        if (businessCategory.getValue() == null) {
+            businessCategory.setStyle("-fx-border-color: red;");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
         private void setUserInfo() throws IOException {
-
-
-
-//           System.out.println(studentStringData);
-//        String studentString = studentStringData.substring(1, studentStringData.length() -1);
-
-//            System.out.println(student);
 
             if (student == null) {
 //                System.out.println((Object) null);
             } else {
-    //        System.out.println(student);
-    //            middlename.setText(student.get("middlename").getAsString());
                 middlename.setText("");
-    //            middlename.setDisable(true);
-    //            lastname.setText(student.get("lastName").getAsString());
-    //            lastname.setDisable(true);
                 lastname.setText("");
-
-    //            firstname.setText(student.get("firstName").getAsString());
-    //            firstname.setDisable(true);
                 firstname.setText("");
 
                 email.setText(student.get("email").getAsString());
@@ -138,6 +145,19 @@ public class EditProfileScreen implements Initializable {
                 gender.setValue("Male");
     //        gender.setValue(student.get("gender").getAsString());
     //            gender.setDisable(true);// Set a default value (optional)
+
+                ObservableList<String> businessCategories = FXCollections.observableArrayList(
+                        "Technology",
+                        "Marketing",
+                        "Healthcare",
+                        "Finance",
+                        "Education",
+                        "Retail",
+                        "Agriculture",
+                        "Entertainment"
+                );
+                businessCategory.setItems(businessCategories);
+                businessCategory.setValue("Technology");  // Set default value
             }
         }
 

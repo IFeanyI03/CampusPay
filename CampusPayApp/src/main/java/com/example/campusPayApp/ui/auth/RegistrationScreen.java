@@ -3,7 +3,9 @@ package com.example.campusPayApp.ui.auth;
 import com.example.campusPayApp.HelloApplication;
 import com.example.campusPayApp.api.Profile;
 import com.example.campusPayApp.api.ValidateStudents;
+import com.example.campusPayApp.utils.ThemedAlert;
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -13,6 +15,9 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.Objects;
+
+import com.example.campusPayApp.utils.LocalStorageManager;
+
 
 public class RegistrationScreen {
     @FXML
@@ -172,51 +177,67 @@ public class RegistrationScreen {
             toast.setTextFill(Color.ORANGERED);
             email.setStyle("-fx-border-color: #ff4444; -fx-border-radius: 8");
         } else {
-            try{
+            try {
+                registerEmployerButton.setDisable(true);
                 int hashPassword = employerPassword.getText().hashCode();
                 Profile profile = new Profile();
+
+                // 1. Create employer JSON
                 String employerJsonString = "{" +
                         "\"isStudent\": " + false + ", " +
                         "\"email\": " + "\"" + email.getText() + "\"" + ", " +
                         "\"password\": " + "\"" + hashPassword + "\"" +
                         "}";
+
+                // 2. Register employer
                 String response = profile.post(employerJsonString);
 
-//                System.out.println(profile.post(employerJsonString));
+                if (response.equals("201")) {
+                    toast.setText("Account created successfully!");
+                    toast.setTextFill(Color.GREEN);
 
-             if (response.equals("201")){
-                  toast.setText("User Account Created");
-                  toast.setTextFill(Color.GREEN);
-                 PauseTransition pause = new PauseTransition(Duration.seconds(2));
-                 pause.setOnFinished(e -> {
-                     try {
-                         String[] data = {"edit-profile-view.fxml", "Profile SetUp"};
-                         HelloApplication.changeScene(data);
-                     } catch (IOException ex) {
-                         ex.printStackTrace(); // Handle the exception appropriately
-                     }
-                 });
-                 pause.play();
-              } else if (response.equals("409")) {
-                 toast.setText("User Already Exists");
-                 toast.setTextFill(Color.ORANGERED);
+                    // 3. STORE USER SESSION IMMEDIATELY
+                    String userData = "{" +
+                            "\"email\": \"" + email.getText() + "\"," +
+                            "\"isStudent\": false" +
+                            "}";
+                    LocalStorageManager.saveObject("User", userData);
 
-             } else {
-                 toast.setText("Authentication Failed");
-                 toast.setTextFill(Color.ORANGERED);
-             }
+                    // 4. Redirect to profile setup
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(e -> {
+                                Platform.runLater(() -> {
+                                    try {
+                                        ThemedAlert.showAlert(
+                                                "Success",
+                                                "Please complete your profile",
+                                                Alert.AlertType.INFORMATION
+                                        );
+                                        HelloApplication.changeScene(
+                                                new String[]{"edit-profile-view.fxml", "Profile Setup"}
+                                        );
+                                    } catch (IOException ex) {
+                                        ex.printStackTrace();
+                                    }
+                                });
+                            });
+                    pause.play();
+
+                } else if (response.equals("409")) {
+                    toast.setText("User already exists");
+                    toast.setTextFill(Color.ORANGERED);
+                    registerEmployerButton.setDisable(false);
+                } else {
+                    toast.setText("Registration failed");
+                    toast.setTextFill(Color.ORANGERED);
+                    registerEmployerButton.setDisable(false);
+                }
+
             } catch (Exception e) {
-                throw new RuntimeException(e);
-            } finally {
-                PauseTransition pause = new PauseTransition(Duration.seconds(2));
-                pause.setOnFinished(e -> {
-                    try {
-                        String[] data = {"edit-profile-view.fxml", "Profile SetUp"};
-                        HelloApplication.changeScene(data);
-                    } catch (IOException ex) {
-                        ex.printStackTrace(); // Handle the exception appropriately
-                    }
-                });
+                registerEmployerButton.setDisable(false);
+                toast.setText("Error: " + e.getMessage());
+                toast.setTextFill(Color.ORANGERED);
+                e.printStackTrace();
             }
         }
     }
