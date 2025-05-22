@@ -23,12 +23,12 @@
                <Font name="System Italic" size="12.0" />
             </font>
          </Label>
-         <Label layoutX="40.0" layoutY="95.0" text="Bio">
+         <Label layoutX="40.0" layoutY="128.0" text="Bio">
             <font>
                <Font name="System Bold Italic" size="12.0" />
             </font>
          </Label>
-         <Label fx:id="bio" alignment="TOP_LEFT" layoutX="40.0" layoutY="122.0" prefHeight="120.0" prefWidth="1200.0" textFill="#118c4f" />
+         <Label fx:id="bio" alignment="TOP_LEFT" layoutX="62.0" layoutY="128.0" prefHeight="120.0" prefWidth="1200.0" textFill="#118c4f" />
          <Hyperlink fx:id="resumeLink" layoutX="126.0" layoutY="316.0" text="Resume/CV" textFill="#118c4f" underline="true" />
          <Hyperlink fx:id="GithubLink" layoutX="125.0" layoutY="357.0" text="Github Profile" textFill="#118c4f" underline="true" />
          <Hyperlink fx:id="portfolioLink" layoutX="125.0" layoutY="395.0" text="Portfolio" textFill="#118c4f" underline="true" />
@@ -52,7 +52,7 @@
                <Font name="System Bold Italic" size="12.0" />
             </font>
          </Label>
-         <Button fx:id="logoutButton" graphicTextGap="12.0" layoutX="32.0" layoutY="508.0" mnemonicParsing="false" onAction="#onClickHandleLogout" prefHeight="40.0" style="-fx-background-radius: 8;" text="Logout" textFill="RED">
+         <Button fx:id="logoutButton" graphicTextGap="12.0" layoutX="32.0" layoutY="508.0" mnemonicParsing="false" onAction="#onClickHandleLogout" prefHeight="40.0" style="-fx-background-radius: 8;" text="Logout" textFill="#118c4f">
             <graphic>
                <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                   <image>
@@ -69,4 +69,9 @@
          </Button>
       </children>
    </AnchorPane>
+   <ImageView fx:id="home" layoutX="1008.0" layoutY="36.0">
+      <image>
+         <Image url="@../../../../../../../../Downloads/home.png" />
+      </image>
+   </ImageView>
 </AnchorPane>
