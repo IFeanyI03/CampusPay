@@ -69,9 +69,14 @@
          </Button>
       </children>
    </AnchorPane>
-   <ImageView fx:id="home" layoutX="1008.0" layoutY="36.0">
+   <ImageView fx:id="home" layoutX="1008.0" layoutY="36.0" pickOnBounds="true" onMouseClicked="#handleHomeClick">
       <image>
-         <Image url="@../../../../../../../../Downloads/home.png" />
+         <Image url="@img/home.png" />
       </image>
    </ImageView>
+<!--   <ImageView fx:id="home" layoutX="1000.0" layoutY="36.0">-->
+<!--      <image>-->
+<!--         <Image url="@img/home.png" />-->
+<!--      </image>-->
+<!--   </ImageView>-->
 </AnchorPane>
