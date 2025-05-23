@@ -8,9 +8,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import java.io.IOException;
 import java.net.URL;
@@ -18,10 +22,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 
+
+
 public class HomeScreen implements Initializable {
 
+    public StackPane contentStackPane;
+    public HBox toggleButtonContainer;
     @FXML
     private GridPane jobContainerGrid;
+
+    @FXML private ToggleButton homeToggleButton;
+    @FXML private ToggleButton jobsToggleButton;
+    @FXML private ToggleGroup viewToggleGroup; // Optional, but good for direct access
+    @FXML private AnchorPane landingPagePane;
+    @FXML private AnchorPane featuredJobsPane;
 
 
     Jobs job = new Jobs();
@@ -35,6 +49,12 @@ public class HomeScreen implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        updateViewVisibility();
+
+        // Add listeners to toggle buttons
+        homeToggleButton.setOnAction(event -> updateViewVisibility());
+        jobsToggleButton.setOnAction(event -> updateViewVisibility());
+
         try {
             getJob();
             setJobList();
@@ -66,6 +86,16 @@ public class HomeScreen implements Initializable {
 
             jobContainerGrid.add(jobItemPane, 0, rowIndex); // Add each job item to a new row in the first column
             rowIndex++;
+        }
+    }
+
+    private void updateViewVisibility() {
+        if (homeToggleButton.isSelected()) {
+            landingPagePane.setVisible(true);
+            featuredJobsPane.setVisible(false);
+        } else if (jobsToggleButton.isSelected()) {
+            landingPagePane.setVisible(false);
+            featuredJobsPane.setVisible(true);
         }
     }
 
