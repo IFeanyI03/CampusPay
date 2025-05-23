@@ -1,11 +1,14 @@
 package com.example.campusPayApp;
 
+import com.example.campusPayApp.utils.LocalStorageManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 import java.io.IOException;
 import java.util.Objects;
 
@@ -16,6 +19,9 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         mainStage = primaryStage; // Initialize the static mainStage
+
+        Image icon = new Image("CampusPay.png");
+        primaryStage.getIcons().add(icon);
         showSplashScreen(); // Show splash screen first
     }
 
@@ -52,11 +58,24 @@ public class HelloApplication extends Application {
     }
 
     private void loadMainApplication() throws IOException {
-        FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("sign-in-view.fxml"));
-        Parent mainRoot = mainLoader.load();
-        Scene mainScene = new Scene(mainRoot, 1280, 720);
-        mainStage.setTitle("Sign In");
-        mainStage.setScene(mainScene);
+//        Gson gson = new Gson();
+        Object userObject = LocalStorageManager.getObject("User");
+
+        FXMLLoader mainLoader;
+        if (userObject != null) {
+//            JsonObject user = gson.fromJson(String.valueOf(userObject), JsonObject.class);
+            mainLoader = new FXMLLoader(getClass().getResource("home-view.fxml"));
+            Parent mainRoot = mainLoader.load();
+            Scene mainScene = new Scene(mainRoot, 1280, 720);
+            mainStage.setTitle("Welcome");
+            mainStage.setScene(mainScene);
+        } else {
+            mainLoader = new FXMLLoader(getClass().getResource("sign-in-view.fxml"));
+            Parent mainRoot = mainLoader.load();
+            Scene mainScene = new Scene(mainRoot, 1280, 720);
+            mainStage.setTitle("Sign In");
+            mainStage.setScene(mainScene);
+        }
         mainStage.setResizable(false);
     }
 

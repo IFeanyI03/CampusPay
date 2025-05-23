@@ -1,12 +1,20 @@
 package com.example.campusPayApp.ui.auth;
 
 import com.example.campusPayApp.HelloApplication;
+import com.example.campusPayApp.api.Profile;
+import com.example.campusPayApp.utils.LocalStorageManager;
+import com.example.campusPayApp.utils.ThemedAlert;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.util.Objects;
+
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
@@ -37,29 +45,56 @@ public class SignInScreen {
     }
 
     HelloApplication app = new HelloApplication();
+    Gson gson = new Gson();
 
     public void checkLogin() throws IOException {
+        String email = username.getText();
+        if (!email.isEmpty() && !password.getText().isEmpty()) {
 
-        if (!username.getText().isEmpty() && password.getText().isEmpty()) {
-            toast.setText("Sign In successful");
-            toast.setTextFill(Color.GREEN);
+            Profile profile = new Profile();
+            String response = profile.getProfileByEmail(email);
+//            System.out.println(response);
+            if (response.equals("404")) {
+                toast.setText("User with this email does not exist");
+                toast.setTextFill(Color.ORANGERED);
+            }
+            else{
+                JsonObject userObject = gson.fromJson(response, JsonObject.class);
+                String hashPassword = "\"" + password.getText().hashCode() + "\"";
+//
+                if (userObject.get("password").getAsInt() == password.getText().hashCode()) {
 
-            PauseTransition pause = new PauseTransition(Duration.seconds(2));
-            pause.setOnFinished(e -> {
-                try {
-                    String[] data = {"home-view.fxml", "Home"};
-                    app.changeScene(data);
-                } catch (IOException ex) {
-                    ex.printStackTrace(); // Handle the exception appropriately
+                    LocalStorageManager.saveObject("User", response);
+                    ThemedAlert.showAlert(
+                            "Success!",
+                            "Your profile has been saved successfully.",
+                            Alert.AlertType.INFORMATION
+                    );
+
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(e -> {
+                        try {
+                            String[] data = {"home-view.fxml", "Home"};
+                            HelloApplication.changeScene(data);
+                        } catch (IOException ex) {
+                            ex.printStackTrace(); // Handle the exception appropriately
+                        }
+                    });
+                    pause.play();
+                } else {
+                    ThemedAlert.showAlert(
+                            "Error",
+                            "Incorrect details. Try again",
+                            Alert.AlertType.ERROR
+                    );
                 }
-            });
-            pause.play();
-        } else if (username.getText().isEmpty() && password.getText().isEmpty()) {
-            toast.setText("Please enter your details first");
-            toast.setTextFill(Color.ORANGE);
+            }
+//        } else (username.getText().isEmpty() && password.getText().isEmpty()) {
+//            toast.setText("Please enter your details first");
+//            toast.setTextFill(Color.ORANGERED);
         } else {
-            toast.setText("Incorrect username or password");
-            toast.setTextFill(Color.RED);
+            toast.setText("Please enter your details first");
+            toast.setTextFill(Color.ORANGERED);
         }
     }
 

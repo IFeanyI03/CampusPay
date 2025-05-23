@@ -1,8 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.campusPayApp.ui.profile.EditProfileScreen">
-
+<AnchorPane prefHeight="680.0" prefWidth="1280.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.campusPayApp.ui.profile.EditProfileScreen">
+   <children>
+      <ImageView fitHeight="435.0" fitWidth="491.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="0.0">
+         <image>
+            <Image url="@img/profile_setup.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="566.0" layoutY="22.0" text="Profile Setup">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <HBox layoutY="40.0" prefHeight="720.0" prefWidth="1280.0">
+         <children>
+            <AnchorPane prefHeight="200.0" prefWidth="400.0">
+               <children>
+                  <Label layoutX="83.0" layoutY="303.0" text="Email" textFill="#118c4f" />
+                  <TextField fx:id="firstname" layoutX="83.0" layoutY="97.0" prefHeight="40.0" prefWidth="240.0" promptText="John" style="-fx-background-radius: 8; -fx-border-color: #118C4F; -fx-border-radius: 8;" />
+                  <TextField fx:id="lastname" layoutX="83.0" layoutY="175.0" prefHeight="40.0" prefWidth="240.0" promptText="Doe" style="-fx-background-radius: 8; -fx-border-color: #118C4F; -fx-border-radius: 8;" />
+                  <TextField fx:id="email" layoutX="83.0" layoutY="331.0" prefHeight="40.0" prefWidth="240.0" promptText="example@gmail.com" style="-fx-background-radius: 8; -fx-border-color: #118C4F; -fx-border-radius: 8;" />
+                  <Label layoutX="83.0" layoutY="381.0" text="Gender" textFill="#118c4f" />
+                  <TextField fx:id="middlename" layoutX="83.0" layoutY="253.0" prefHeight="40.0" prefWidth="240.0" style="-fx-background-radius: 8; -fx-border-color: #118C4F; -fx-border-radius: 8;" />
+                  <Label layoutX="83.0" layoutY="225.0" text="Middlename (optional)" textFill="#118c4f" />
+                  <Label layoutX="83.0" layoutY="147.0" text="Lastname" textFill="#118c4f" />
+                  <Label layoutX="80.0" layoutY="69.0" text="Firstname" textFill="#118c4f" />
+                  <Button fx:id="saveSetup" layoutX="83.0" layoutY="549.0" mnemonicParsing="false" onAction="#onClickHandleSave" prefHeight="51.0" prefWidth="184.0" style="-fx-background-color: #118C4F; -fx-background-radius: 8;" text="Save" textFill="WHITE">
+                     <padding>
+                        <Insets left="20.0" right="20.0" />
+                     </padding>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <ComboBox fx:id="gender" layoutX="83.0" layoutY="410.0" prefHeight="40.0" prefWidth="240.0" style="-fx-border-color: #118C4F; -fx-background-color: #fff; -fx-border-radius: 8; -fx-background-radius: 8;" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="400.0">
+               <children>
+                  <Label layoutX="80.0" layoutY="368.0" text="Portfolio Link (optional)" textFill="#118c4f" />
+                  <TextField fx:id="resumeLink" layoutX="80.0" layoutY="225.0" prefHeight="40.0" prefWidth="240.0" style="-fx-background-radius: 8; -fx-border-color: #118C4F; -fx-border-radius: 8;" />
+                  <TextField fx:id="portfolioLink" layoutX="80.0" layoutY="399.0" prefHeight="40.0" prefWidth="240.0" style="-fx-background-radius: 8; -fx-border-color: #118C4F; -fx-border-radius: 8;" />
+                  <Label layoutX="80.0" layoutY="454.0" text="Skills" textFill="#118c4f" />
+                  <TextField fx:id="githubLink" layoutX="80.0" layoutY="313.0" prefHeight="40.0" prefWidth="240.0" style="-fx-background-radius: 8; -fx-border-color: #118C4F; -fx-border-radius: 8;" />
+                  <Label layoutX="80.0" layoutY="280.0" text="GitHub profile Link (optional)" textFill="#118c4f" />
+                  <Label layoutX="80.0" layoutY="192.0" text="Resume/CV Link (optional)" textFill="#118c4f" />
+                  <Label layoutX="80.0" layoutY="69.0" text="Bio" textFill="#118c4f" />
+                  <TextArea fx:id="bio" layoutX="80.0" layoutY="97.0" prefHeight="80.0" prefWidth="240.0" promptText="Tell us about yourself" style="-fx-background-radius: 8; -fx-border-color: #118C4F; -fx-border-radius: 8;" wrapText="true" />
+                  <TextArea fx:id="skills" layoutX="80.0" layoutY="487.0" prefHeight="80.0" prefWidth="240.0" promptText="Seperate skills with a comma &quot;,&quot; i.e Web development, UI/UX, ..." style="-fx-background-radius: 8; -fx-border-color: #118C4F; -fx-border-radius: 8;" wrapText="true" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="400.0">
+               <children>
+                  <TextField fx:id="businessName" layoutX="80.0" layoutY="97.0" prefHeight="40.0" prefWidth="240.0" style="-fx-background-radius: 8; -fx-border-color: #118C4F; -fx-border-radius: 8;" />
+                  <Label layoutX="80.0" layoutY="147.0" text="Business Category (optional)" textFill="#118c4f" />
+                  <Label fx:id="businessNameLabel" layoutX="80.0" layoutY="69.0" text="Business Name" textFill="#118c4f" />
+                  <ComboBox fx:id="businessCategory" layoutX="80.0" layoutY="183.0" prefHeight="40.0" prefWidth="240.0" style="-fx-border-color: #118C4F; -fx-background-color: #fff; -fx-border-radius: 8; -fx-background-radius: 8;" />
+               </children>
+            </AnchorPane>
+         </children>
+         <opaqueInsets>
+            <Insets top="30.0" />
+         </opaqueInsets>
+         <padding>
+            <Insets left="40.0" right="40.0" />
+         </padding>
+      </HBox>
+   </children>
 </AnchorPane>
