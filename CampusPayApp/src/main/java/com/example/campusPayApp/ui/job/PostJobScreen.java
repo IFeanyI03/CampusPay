@@ -27,6 +27,7 @@ public class PostJobScreen {
     public Button createJobButton;
 
     public void onClickHandleCreate(ActionEvent event) throws IOException {
+        System.out.println("Create Job clicked!");
         addNewJob();
     }
 
@@ -37,12 +38,12 @@ public class PostJobScreen {
 
         if (
                 title.getText().isEmpty() ||
-                description.getText().isEmpty() ||
-                deadline.getValue().toString().isEmpty() ||
-                type.getText().isEmpty() ||
-                jobLocation.getText().isEmpty() || pay.getText().isEmpty()
-        ){
-            System.out.println("fill in all fields");
+                        description.getText().isEmpty() ||
+                        deadline.getValue().toString().isEmpty() ||
+                        type.getText().isEmpty() ||
+                        jobLocation.getText().isEmpty() || pay.getText().isEmpty()
+        ) {
+            System.out.println("Fill in all fields");
         } else {
             String body = "{" +
                     "\"name\": " + "\"" + title.getText() + "\"" + ", " +
@@ -53,7 +54,15 @@ public class PostJobScreen {
                     "\"location\": " + "\"" + jobLocation.getText() + "\"" + ", " +
                     "\"pay\": " + "\"" + pay.getText() + "\"" + ", " +
                     "\"created_by\": " + "\"" + user.get("id").getAsString() + "\"" + "}";
+            System.out.println("POST BODY: " + body);
             job.post(body);
+
+            javafx.scene.Parent root = javafx.fxml.FXMLLoader.load(
+                    getClass().getResource("/com/example/campusPayApp/home-view.fxml")
+            );
+            javafx.stage.Stage stage = (javafx.stage.Stage) createJobButton.getScene().getWindow();
+            stage.setScene(new javafx.scene.Scene(root));
+            stage.show();
         }
     }
 }
